@@ -1,4 +1,4 @@
-# Copyright The PyTorch Lightning team.
+# Copyright The Lightning AI team.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,53 +14,52 @@
 """Diagnose your system and show basic information.
 
 This server mainly to get detail info for better bug reporting.
+
 """
 
 import os
 import platform
 import sys
 
-import numpy
+import pkg_resources
 import torch
-import tqdm
 
-sys.path += [os.path.abspath(".."), os.path.abspath(".")]
-import pytorch_lightning  # noqa: E402
+sys.path += [os.path.abspath(".."), os.path.abspath("")]
+
 
 LEVEL_OFFSET = "\t"
 KEY_PADDING = 20
 
 
-def info_system():
+def info_system() -> dict:
     return {
         "OS": platform.system(),
         "architecture": platform.architecture(),
         "version": platform.version(),
+        "release": platform.release(),
         "processor": platform.processor(),
         "python": platform.python_version(),
     }
 
 
-def info_cuda():
+def info_cuda() -> dict:
     return {
-        "GPU": [torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())],
-        # 'nvidia_driver': get_nvidia_driver_version(run_lambda),
+        "GPU": [torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())] or None,
         "available": torch.cuda.is_available(),
         "version": torch.version.cuda,
     }
 
 
-def info_packages():
-    return {
-        "numpy": numpy.__version__,
-        "pyTorch_version": torch.__version__,
-        "pyTorch_debug": torch.version.debug,
-        "pytorch-lightning": pytorch_lightning.__version__,
-        "tqdm": tqdm.__version__,
-    }
+def info_packages() -> dict:
+    """Get name and version of all installed packages."""
+    packages = {}
+    for dist in pkg_resources.working_set:
+        package = dist.as_requirement()
+        packages[package.key] = package.specs[0][1]
+    return packages
 
 
-def nice_print(details, level=0):
+def nice_print(details: dict, level: int = 0) -> list:
     lines = []
     for k in sorted(details):
         key = f"* {k}:" if level == 0 else f"- {k}:"
@@ -71,17 +70,18 @@ def nice_print(details, level=0):
             lines += [level * LEVEL_OFFSET + key]
             lines += [(level + 1) * LEVEL_OFFSET + "- " + v for v in details[k]]
         else:
-            template = "{:%is} {}" % KEY_PADDING
+            template = "{:%is} {}" % KEY_PADDING  # noqa: UP031
             key_val = template.format(key, details[k])
             lines += [(level * LEVEL_OFFSET) + key_val]
     return lines
 
 
-def main():
+def main() -> None:
     details = {"System": info_system(), "CUDA": info_cuda(), "Packages": info_packages()}
+    details["Lightning"] = {k: v for k, v in details["Packages"].items() if "torch" in k or "lightning" in k}
     lines = nice_print(details)
     text = os.linesep.join(lines)
-    print(text)
+    print(f"<details>\n  <summary>Current environment</summary>\n\n{text}\n\n</details>")
 
 
 if __name__ == "__main__":

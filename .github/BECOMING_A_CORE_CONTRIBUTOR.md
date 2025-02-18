@@ -38,7 +38,7 @@ Here, we describe general expectations from core contributors:
 
 ### Pull Requests (PRs)
 
-- Pull requests are the evolutionary mechanism of Lightning, so quality is extremely important. Make sure contributors adhere to the guidelines described in the [contributing section](CONTRIBUTING.md#Pull-Request).
+- Pull requests are the evolutionary mechanism of Lightning, so quality is extremely important. Make sure contributors adhere to the guidelines described in the [contributing section](CONTRIBUTING.md#pull-request).
 
 - Some PRs are from people who want to get involved and try to add something unnecessary. We do want their help though! So don’t approve the PR, but direct them to a Github issue that they might be interested in helping with instead!
 
@@ -51,15 +51,15 @@ Lightning should reflect the broader community it serves. As such we should have
 
 ### Community
 
-We have an active [Slack](https://join.slack.com/t/pytorch-lightning/shared_invite/zt-12iz3cds1-uyyyBYJLiaL2bqVmMN7n~A) community, where questions are asked daily.
+We have an active [Discord](https://discord.gg/VptPCZkGNa) community, where questions are asked daily.
 This is a great way to show off your Lightning and PyTorch knowledge, and help out others.
-There's also [GitHub discussions](https://github.com/PyTorchLightning/pytorch-lightning/discussions).
+There's also [GitHub discussions](https://github.com/Lightning-AI/lightning/discussions).
 
 ## Applying
 
 There are no precise targets for becoming a core contributor. In the past, community members have become core after fitting the previous expectations consistently.
-We are on the lookout for new people to join, however, if you feel like you meet the expectations already and we haven't reached out to you yet, feel free to ping us privately on [Slack](https://join.slack.com/t/pytorch-lightning/shared_invite/zt-12iz3cds1-uyyyBYJLiaL2bqVmMN7n~A)!.
+We are on the lookout for new people to join, however, if you feel like you meet the expectations already and we haven't reached out to you yet, feel free to ping us privately on [Discord](https://discord.gg/XbUZ3xbdQk).
 
 ## Employment
 
-You can also become a [Grid.ai](https://www.grid.ai) employee or intern and work on Lightning. To get started, you can email `careers@grid.ai` with your resume or check out our [open job postings](https://boards.greenhouse.io/gridai).
+You can also become a [Lightning AI](https://lightning.ai/) employee or intern and work on Lightning. To get started, you can email `careers@lightning.ai` with your resume or check out our [open job postings](https://boards.greenhouse.io/lightningai).

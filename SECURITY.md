@@ -1,2 +1,1 @@
-developer@grid.ai
-developer@pytorchlightning.ai
+developer@lightning.ai

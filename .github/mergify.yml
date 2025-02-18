@@ -1,4 +1,4 @@
-# Copyright The PyTorch Lightning team.
+# Copyright The Lightning AI team.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 # limitations under the License.
 
 pull_request_rules:
-
   - name: warn on conflicts
     conditions:
       - conflict
@@ -23,7 +22,7 @@ pull_request_rules:
       # comment:
       #   message: This pull request is now in conflict... :(
       label:
-        add: [ "has conflicts" ]
+        add: ["has conflicts"]
 
   - name: resolved conflicts
     conditions:
@@ -34,7 +33,7 @@ pull_request_rules:
       - -closed
     actions:
       label:
-        remove: [ "has conflicts" ]
+        remove: ["has conflicts"]
 
   - name: Ready to Go
     conditions:
@@ -45,52 +44,27 @@ pull_request_rules:
       - "#changes-requested-reviews-by=0" # no requested changes
     actions:
       label:
-        add: [ "ready" ]
+        add: ["ready"]
 
   - name: Not ready yet
     conditions:
       - or:
-        - label="has conflicts"
-        - "#approved-reviews-by=0" # number of review approvals
-        - "#changes-requested-reviews-by>=1" # no requested changes
+          - draft # filter-out GH draft PRs
+          - label="has conflicts"
+          - "#approved-reviews-by=0" # number of review approvals
+          - "#changes-requested-reviews-by>=1" # no requested changes
     actions:
       label:
-        remove: [ "ready" ]
+        remove: ["ready"]
 
   - name: add core reviewer
     conditions:
       - -conflict # skip if conflict
       - -draft # filter-out GH draft PRs
       - label="ready"
-      - "#approved-reviews-by<3" # number of review approvals
-      - "#review-requested<3" # number of requested reviews
+      - "#approved-reviews-by<2" # number of review approvals
+      - "#review-requested<2" # number of requested reviews
     actions:
       request_reviews:
         teams:
-          - "@PyTorchLightning/core-lightning"
-
-  - name: Grid.ai employee approval
-    conditions:
-      - or:
-        - approved-reviews-by=awaelchli
-        - approved-reviews-by=Borda
-        - approved-reviews-by=carmocca
-        - approved-reviews-by=edenlightning
-        - approved-reviews-by=ethanwharris
-        - approved-reviews-by=kaushikb11
-        - approved-reviews-by=krshrimali
-        - approved-reviews-by=rohitgr7
-        - approved-reviews-by=tchaton
-        - approved-reviews-by=williamFalcon
-    actions:
-      post_check:
-        title: |
-          {% if check_succeed %}
-          This PR has Grid.ai approval.
-          {% else %}
-          This PR is waiting for approval from a Grid.ai team member.
-          {% endif %}
-        summary: |
-          {% if not check_succeed %}
-          Each pull request must be approved by at least one Grid.ai team member.
-          {% endif %}
+          - "@Lightning-AI/core-lightning"
